@@ -1,25 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
+import TokenInterface from './components/TokenInterface';
+import MetaverseScene from './components/MetaverseScene';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
-
-function Box() {
-  return (
-    <mesh>
-      <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color="orange" />
-    </mesh>
-  );
-}
+import './App.css';
 
 function App() {
+  const [currentUser, setCurrentUser] = useState(null);
+
+  const handleUserRegistration = (userData) => {
+    setCurrentUser(userData);
+  };
+
   return (
-    <div style={{ width: '100vw', height: '100vh' }}>
-      <Canvas>
-        <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} />
-        <Box />
-        <OrbitControls />
-      </Canvas>
+    <div className="App">
+      <div className="token-interface">
+        <TokenInterface onUserRegistration={handleUserRegistration} />
+      </div>
+      <div className="metaverse-environment">
+        <Canvas shadows camera={{ position: [5, 5, 5], fov: 75 }}>
+          <MetaverseScene currentUser={currentUser} />
+        </Canvas>
+      </div>
     </div>
   );
 }
